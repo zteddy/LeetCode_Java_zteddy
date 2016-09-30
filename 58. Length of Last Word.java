@@ -20,7 +20,7 @@ public class Solution {
     }
 }
 
-/* Using split()
+/* Using String.split()
 public class Solution {
     public int lengthOfLastWord(String s) {
         String[] parts = s.split(" ");
@@ -30,7 +30,7 @@ public class Solution {
 }
 */
 
-/* Using trim()
+/* Using String.trim()
 public int lengthOfLastWord(String s) {
     return s.trim().length()-s.trim().lastIndexOf(" ")-1;
 }
