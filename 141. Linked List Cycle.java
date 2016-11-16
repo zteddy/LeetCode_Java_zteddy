@@ -15,14 +15,14 @@ public class Solution {
     	Map<ListNode, ListNode> hm = new HashMap<>();
 
     	ListNode p = head;
-    	
+
     	if(p != null){
     		if(hm.containsKey(p)) return true;
     		else hm.put(p,p);
     		p = p.next;
     	}
 
-    	return false;       
+    	return false;
     }
 }
 
@@ -34,7 +34,7 @@ Imagine two runners running on a track at different speed. What happens when the
 
 Algorithm
 
-The space complexity can be reduced to O(1)O(1) by considering two pointers at different speed - a slow pointer and a fast pointer. The slow pointer moves one step at a time while the fast pointer moves two steps at a time.
+The space complexity can be reduced to O(1) by considering two pointers at different speed - a slow pointer and a fast pointer. The slow pointer moves one step at a time while the fast pointer moves two steps at a time.
 
 If there is no cycle in the list, the fast pointer will eventually reach the end and we can return false in this case.
 
@@ -59,10 +59,10 @@ public boolean hasCycle(ListNode head) {
 }
 Complexity analysis
 
-Time complexity : O(n)O(n). Let us denote nn as the total number of nodes in the linked list. To analyze its time complexity, we consider the following two cases separately.
+Time complexity : O(n). Let us denote nn as the total number of nodes in the linked list. To analyze its time complexity, we consider the following two cases separately.
 
 List has no cycle:
-The fast pointer reaches the end first and the run time depends on the list's length, which is O(n)O(n).
+The fast pointer reaches the end first and the run time depends on the list's length, which is O(n).
 
 List has a cycle:
 We break down the movement of the slow pointer into two steps, the non-cyclic part and the cyclic part:
@@ -77,5 +77,5 @@ Both pointers are now in the cycle. Consider two runners running in a cycle - th
 
 Therefore, the worst case time complexity is O(N+K)O(N+K), which is O(n)O(n).
 
-Space complexity : O(1)O(1). We only use two nodes (slow and fast) so the space complexity is O(1)O(1).
+Space complexity : O(1). We only use two nodes (slow and fast) so the space complexity is O(1).
 */

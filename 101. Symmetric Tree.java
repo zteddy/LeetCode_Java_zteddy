@@ -62,9 +62,11 @@ public class Solution {
 
 }
 
+//TLE
 
 
-/*Recursive solution
+
+//Recursive solution
 A tree is symmetric if the left subtree is a mirror reflection of the right subtree.
 Therefore, the question is: when are two trees a mirror reflection of each other?
 Two trees are a mirror reflection of each other if:
@@ -84,9 +86,9 @@ public boolean isMirror(TreeNode t1, TreeNode t2) {
         && isMirror(t1.right, t2.left)
         && isMirror(t1.left, t2.right);
 }
-*/
 
-/*Iterative solution
+
+//Iterative solution
 Instead of recursion, we can also use iteration with the aid of a queue. Each two consecutive nodes in the queue should be equal, and their subtrees a mirror of each other. Initially, the queue contains root and root. Then the algorithm works similarly to BFS, with some key differences. Each time, two nodes are extracted and their values compared. Then, the right and left children of the two nodes are inserted in the queue in opposite order. The algorithm is done when either the queue is empty, or we detect that the tree is not symmetric (i.e. we pull out two consecutive nodes from the queue that are unequal).
 
 public boolean isSymmetric(TreeNode root) {
@@ -106,4 +108,4 @@ public boolean isSymmetric(TreeNode root) {
     }
     return true;
 }
-*/
+

@@ -11,18 +11,18 @@ public class ValidWordAbbr {
     		if(dictionary[i].length() <=2)
     			continue;
     		else{
-    			temp = dictionary[i].substring(0,1) + 
-    			       (dictionary[i].length()-2 + "") + 
+    			temp = dictionary[i].substring(0,1) +
+    			       (dictionary[i].length()-2 + "") +
     			       dictionary[i].substring(dictionary[i].length()-1,dictionary[i].length());
     			if(!hm.containsKey(temp))
     				hm.put(temp, dictionary[i]);
     			else{
-    				hm.remove(temp);    //It is not needed, hm.put can cover the previous 
+    				hm.remove(temp);    //It is not needed, hm.put can cover the previous
     				hm.put(temp,"");
     			}
     		}
     	}
-        
+
     }
 
     public boolean isUnique(String word) {
@@ -32,13 +32,13 @@ public class ValidWordAbbr {
     		return true;
     	else if(hm.containsValue(word)) return true;
     	else{
-    		temp = word.substring(0,1) + (word.length()-2+"") 
+    		temp = word.substring(0,1) + (word.length()-2+"")
     			   + word.substring(word.length()-1, word.length());
     		return !hm.containsKey(temp);
     	}
-	}	
+	}
 
-    	
+
 }
 
 
@@ -49,3 +49,4 @@ public class ValidWordAbbr {
 
 
 //TODO Don't know why so slow
+//Answer:应该已经是很好的办法了，慢是因为用了substring而不是charAt

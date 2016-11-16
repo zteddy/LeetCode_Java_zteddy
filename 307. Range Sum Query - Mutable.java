@@ -67,7 +67,7 @@ public class NumArray {
 
 
 
-/*Sqrt decomposition
+//Sqrt decomposition
 private int[] b;
 private int len;
 private int[] nums;
@@ -105,11 +105,11 @@ public void update(int i, int val) {
     nums[i] = val;
 }
 // Accepted
-*/
 
 
 
-/*Segment tree
+
+//Segment tree
 	int[] tree;
 	int n;
 	public NumArray(int[] nums) {
@@ -163,4 +163,4 @@ public void update(int i, int val) {
 	    }
 	    return sum;
 }
-*/
+

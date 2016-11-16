@@ -31,7 +31,7 @@ public class Solution {
 
 
 
-//AC two-pointer solutin 
+//AC two-pointer solution
 public class Solution {
     public boolean isPalindrome(ListNode head) {
         if(head == null) {
@@ -55,7 +55,7 @@ public class Solution {
             p1 = p1.next;
         }
         else {   //even number of elements, do nothing
-            
+
         }
         //compare from mid to head/tail
         while(p3 != null) {
@@ -66,7 +66,7 @@ public class Solution {
             p3 = p3.next;
         }
         return true;
-        
+
     }
 }
 

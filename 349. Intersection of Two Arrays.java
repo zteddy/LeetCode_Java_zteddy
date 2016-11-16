@@ -18,12 +18,14 @@ public class Solution {
         for(int i = 0; i < result2.length; i++){
         	result2[i] = result.get(i);
         }
-        
-        return result2; 
+
+        return result2;
     }
 }
 
 /*More clear solutions
+
+
 Use two hash sets
 
 Time complexity: O(n)
@@ -48,6 +50,8 @@ public class Solution {
         return result;
     }
 }
+
+
 Sort both arrays, use two pointers
 
 Time complexity: O(nlogn)
@@ -78,6 +82,8 @@ public class Solution {
         return result;
     }
 }
+
+
 Binary search
 
 Time complexity: O(nlogn)
@@ -98,7 +104,7 @@ public class Solution {
         }
         return result;
     }
-    
+
     public boolean binarySearch(int[] nums, int target) {
         int low = 0;
         int high = nums.length - 1;
