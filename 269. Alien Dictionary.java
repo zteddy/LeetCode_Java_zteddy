@@ -224,6 +224,15 @@ public boolean dfs(boolean[][] adj, int[] visited, StringBuilder sb, int i) {
         }
     }
     visited[i] = 2;                           // 2 = visited
+
+
+
+    //因为是在有向图里找环，如果单纯记visit的话找出的环可能只是无向意义上的环。所以要找“正在用”的node，这样才是有向意义下的环。
+
+
+
+
+
     sb.append((char) (i + 'a'));
     return true;
 }
