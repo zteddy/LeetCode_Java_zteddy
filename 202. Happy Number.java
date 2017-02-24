@@ -30,7 +30,10 @@ public class Solution {
     }
 }
 
-/*Genius solution using math
+
+
+
+/*Using two pointers
 int digitSquareSum(int n) {
     int sum = 0, tmp;
     while (n) {
@@ -52,7 +55,11 @@ bool isHappy(int n) {
     if (slow == 1) return 1;
     else return 0;
 }
+*/
 
+
+
+/*Genius solution using math
 bool isHappy(int n) {
     while(n>6){
         int next = 0;
