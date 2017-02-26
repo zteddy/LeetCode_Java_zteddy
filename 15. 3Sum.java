@@ -36,6 +36,8 @@ public class Solution {
     	return result;
     }
 }
+//WA Can not handle duplicate
+
 
 //Using sort & two pointers
 public List<List<Integer>> threeSum(int[] num) {
