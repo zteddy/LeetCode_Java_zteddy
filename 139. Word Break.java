@@ -117,3 +117,86 @@ public class Solution {
         return false;
     }
 }
+
+
+
+//Approach #2 Recursion with memorization [Accepted]
+In the previous approach we can see that many subproblems were redundant, i.e we were calling the recursive function multiple times for a particular string. To avoid this we can use memorization method, where an array memomemo is used to store the result of the subproblems. Now, when the function is called again for a particular string, value will be fetched and returned using the memomemo array, if its value has been already evaluated.
+
+With memorization many redundant subproblems are avoided and recursion tree is pruned and thus it reduces the time complexity by a large factor.
+
+Java
+
+public class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int[] memo = new int[s.length() + 1];
+        Arrays.fill(memo, -1);
+        return word_Break(s, new HashSet(wordDict), 0, memo) == 1;
+    }
+    public int word_Break(String s, Set<String> wordDict, int start, int[] memo) {
+        if (memo[start] >= 0) {
+            return memo[start];
+        }
+        int res = 0;
+        if (start == s.length()) {
+            res = 1;
+        }
+        for (int end = start + 1; end <= s.length(); end++) {
+            if (wordDict.contains(s.substring(start, end))) {
+                res |= word_Break(s, wordDict, end, memo);
+            }
+        }
+        memo[start] = res;
+        return res;
+    }
+}
+
+
+
+//Approach #3 Using Breadth-First-Search [Accepted]
+Another approach is to use Breadth-First-Search. Visualize the string as a tree where each node represents the prefix upto index endend. Two nodes are connected only if the substring between the indices linked with those nodes is also a valid string which is present in the dictionary. In order to form such a tree, we start with the first character of the given string (say ss) which acts as the root of the tree being formed and find every possible substring starting with that character which is a part of the dictionary. Further, the ending index (say ii) of every such substring is pushed at the back of a queue which will be used for Breadth First Search. Now, we pop an element out from the front of the queue and perform the same process considering the string s(i+1,end)s(i+1,end) to be the original string and the popped node as the root of the tree this time. This process is continued, for all the nodes appended in the queue during the course of the process. If we are able to obtain the last element of the given string as a node (leaf) of the tree, this implies that the given string can be partitioned into substrings which are all a part of the given dictionary.
+
+public class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordDictSet=new HashSet(wordDict);
+        Queue<Integer> queue = new LinkedList<>();
+        int[] visited = new int[s.length()];
+        queue.add(0);
+        while (!queue.isEmpty()) {
+            int start = queue.remove();
+            if (visited[start] == 0) {
+                for (int end = start + 1; end <= s.length(); end++) {
+                    if (wordDictSet.contains(s.substring(start, end))) {
+                        queue.add(end);
+                        if (end == s.length()) {
+                            return true;
+                        }
+                    }
+                }
+                visited[start] = 1;
+            }
+        }
+        return false;
+    }
+}
+
+
+
+//Approach #4 Using Dynamic Programming [Accepted]:
+
+public class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordDictSet=new HashSet(wordDict);
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && wordDictSet.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+}
