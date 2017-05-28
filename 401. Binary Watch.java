@@ -119,7 +119,7 @@ public class Solution {
         }
 
         for(int i = pos; i < nums.length; i++) {
-            generateDigitHelper(nums, count - 1, i + 1, sum + nums[i], res);
+            generateDigitHelper(nums, count - 1, i + 1, sum + nums[i], res);  //因为顺序无关，是个组合问题，所以可以这么backtracking，注意入口有n个
         }
     }
 }
