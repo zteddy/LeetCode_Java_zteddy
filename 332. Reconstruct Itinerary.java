@@ -150,6 +150,8 @@ D A
 B C
 From JFK we first visit JFK -> A -> C -> D -> A. There we re stuck, so we write down A as the end of the route and retreat back to D. There we see the unused ticket to B and follow it: D -> B -> C -> JFK -> D. Then we re stuck again, retreat and write down the airports while doing so: Write down D before the already written A, then JFK before the D, etc. When we re back from our cycle at D, the written route is D -> B -> C -> JFK -> D -> A. Then we retreat further along the original path, prepending C, A and finally JFK to the route, ending up with the route JFK -> A -> C -> D -> B -> C -> JFK -> D -> A.
 
+//很难懂，但可以先记住，post-order DFS， 并且从后往前加node，可以构建欧拉路径
+
 Recursive version:
 public List<String> findItinerary(String[][] tickets) {
     for (String[] ticket : tickets)
