@@ -64,7 +64,7 @@ public class Solution {
     	for(int i = 0; i < prerequisites.length; i++){
     		indegree[prerequisites[i][0]]++;
     	}
-    	Queue<Integer> q = new LinkedList<>(); 
+    	Queue<Integer> q = new LinkedList<>();
     	for(int i = 0; i < numCourses; i++){
     		if(indegree[i] == 0){
     			q.offer(i);
@@ -93,8 +93,8 @@ public class Solution {
 }
 
 /*BFS & DFS
-According to my code test, BFS is much faster than DFS. 
-From my perspective DFS searches more branches. 
+According to my code test, BFS is much faster than DFS.
+From my perspective DFS searches more branches.
 EX: 1->3->4 //1->5->3 the first branch we need search 3's children, in second we still need to do so.
 
 BFS:
@@ -105,10 +105,10 @@ public class Solution {
         int[] degree = new int[numCourses];
         Queue queue = new LinkedList();
         int count=0;
-        
+
         for(int i=0;i<numCourses;i++)
             graph[i] = new ArrayList();
-            
+
         for(int i=0; i<prerequisites.length;i++){
             degree[prerequisites[i][1]]++;
             graph[prerequisites[i][0]].add(prerequisites[i][1]);
@@ -119,7 +119,7 @@ public class Solution {
                 count++;
             }
         }
-        
+
         while(queue.size() != 0){
             int course = (int)queue.poll();
             for(int i=0; i<graph[course].size();i++){
@@ -133,7 +133,7 @@ public class Solution {
         }
         if(count == numCourses)
             return true;
-        else    
+        else
             return false;
     }
 }
@@ -144,48 +144,48 @@ public class Solution {
 
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
 	    if(numCourses == 0 || prerequisites == null || prerequisites.length == 0) return true; //??
-	    
+
 	    // create the array lists to represent the courses
 	    List<List<Integer>> courses = new ArrayList<List<Integer>>(numCourses);
 	    for(int i=0; i<numCourses; i++) {
 	        courses.add(new ArrayList<Integer>());
 	    }
-	    
+
 	    // create the dependency graph
 	    for(int i=0; i<prerequisites.length; i++) {
 	        courses.get(prerequisites[i][1]).add(prerequisites[i][0]);
 	    }
 
-	    int[] visited = new int[numCourses]; 
-	    
+	    int[] visited = new int[numCourses];
+
 	    // dfs visit each course
 	    for(int i=0; i<numCourses; i++) {
-	           if (!dfs(i,courses, visited)) return false; 
+	           if (!dfs(i,courses, visited)) return false;
 	    }
-	    
+
 	    return true;
 	}
 
 	private boolean dfs(int course, List<List<Integer>> courses, int[] visited) {
-	    
+
 	    visited[course] = 1; // mark it being visited
-	    
+
 	    List<Integer> eligibleCourses = courses.get(course); // get its children
-	    
+
 	    // dfs its children
 	    for(int i=0; i<eligibleCourses.size(); i++) {
 	        int eligibleCourse = eligibleCourses.get(i).intValue();
-	        
+
 	        if(visited[eligibleCourse] == 1) return false; // has been visited while visiting its children - cycle !!!!
 	        if(visited[eligibleCourse]  == 0) { // not visited
-	           if (!dfs(eligibleCourse,courses, visited)) return false; 
+	           if (!dfs(eligibleCourse,courses, visited)) return false;
 	        }
 
 	    }
-	    
-	    visited[course] = 2; // mark it done visiting
+
+	    visited[course] = 2; // mark it done visiting             //为了用DFS在有向图上检查cycle，需要一些Backtracking的思想
 	    return true;
-	    
+
 	}
 }
 */
@@ -193,42 +193,42 @@ public class Solution {
 /*Another DFS
 DFS Solution:
 
-The basic idea is using DFS to check if the current node was already included in the traveling path. 
-In this case, we need to convert graph presentation from edge list to adjacency list first, and then check if there's cycle existing in any subset. 
+The basic idea is using DFS to check if the current node was already included in the traveling path.
+In this case, we need to convert graph presentation from edge list to adjacency list first, and then check if there's cycle existing in any subset.
 Because tree is a connected graph, we can start from any node.
 The graph is possibly not connected, so need to check every node.
 To do memorization and pruning, a HashMap is used to save the previous results for the specific node.
 
-HashMap<Integer, Boolean>memo = new HashMap<Integer, Boolean>();//Memorization HashMap for DFS pruning 
-public boolean canFinish(int n, int[][] edges) {		 
-    if (edges.length != 0) { 
+HashMap<Integer, Boolean>memo = new HashMap<Integer, Boolean>();//Memorization HashMap for DFS pruning
+public boolean canFinish(int n, int[][] edges) {
+    if (edges.length != 0) {
         HashMap<Integer, HashSet<Integer>> neighbors = new HashMap<Integer, HashSet<Integer>>(); // Neighbors of each node
         HashSet<Integer>curPath = new HashSet<Integer>(); // Nodes on the current path
-        for (int i = 0; i < edges.length; i++) {// Convert graph presentation from edge list to adjacency list 
-            if (!neighbors.containsKey(edges[i][1])) 
-                neighbors.put(edges[i][1], new HashSet<Integer>());            
+        for (int i = 0; i < edges.length; i++) {// Convert graph presentation from edge list to adjacency list
+            if (!neighbors.containsKey(edges[i][1]))
+                neighbors.put(edges[i][1], new HashSet<Integer>());
             neighbors.get(edges[i][1]).add(edges[i][0]);
         }
-        
+
         for (int a[] : edges) // The graph is possibly not connected, so need to check every node.
 	        if (hasCycle(neighbors, a[0], -1, curPath))// Use DFS method to check if there's cycle in any curPath
 	            return false;
-    } 
+    }
     return true;
-}     
+}
 
 boolean hasCycle(HashMap<Integer, HashSet<Integer>> neighbors, int kid, int parent, HashSet<Integer>curPath) {
 	if (memo.containsKey(kid)) return memo.get(kid);
-    if (curPath.contains(kid)) return true;// The current node is already in the set of the current path	    
-    if (!neighbors.containsKey(kid)) return false;	   
-    
+    if (curPath.contains(kid)) return true;// The current node is already in the set of the current path
+    if (!neighbors.containsKey(kid)) return false;
+
     curPath.add(kid);
     for (Integer neighbor : neighbors.get(kid)) {
     	boolean hasCycle = hasCycle(neighbors, neighbor, kid, curPath);// DFS
-    	memo.put(kid, hasCycle);	        	
+    	memo.put(kid, hasCycle);
         if (hasCycle) return true;
     }
-    curPath.remove(kid);	    
+    curPath.remove(kid);	   //为了用DFS在有向图上检查cycle，需要一些Backtracking的思想
     return false;
 }
 */
