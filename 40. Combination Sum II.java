@@ -43,7 +43,7 @@ public class Solution {
 
 
 
-/*跳过条件666666
+//跳过条件666666
 public List<List<Integer>> combinationSum2(int[] cand, int target) {
     Arrays.sort(cand);
     List<List<Integer>> res = new ArrayList<List<Integer>>();
@@ -64,4 +64,4 @@ void dfs_com(int[] cand, int cur, int target, List<Integer> path, List<List<Inte
         path.remove(path.size()-1);
     }
 }
-*/
+

@@ -128,7 +128,7 @@ public class Solution {
 
 
 
-/*(n/26) times faster
+//(n/26) times faster
 public int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
     Set<String> reached = new HashSet<String>();
     reached.add(beginWord);
@@ -202,17 +202,16 @@ public class Solution {
         return res;
     }
 }
-*/
 
 
 
-/*Two end BFS
-At last I'm able to understand. I learned a lot from this solution.
+//Two end BFS
+At last Im able to understand. I learned a lot from this solution.
 
-It's much faster than one-end search indeed as explained in wiki.
-BFS isn't equivalent to Queue. Sometimes Set is more accurate representation for nodes of level. (also handy since we need to check if we meet from two ends)
-It's safe to share a visited set for both ends since if they meet same string it terminates early. (vis is useful since we cannot remove word from dict due to bidirectional search)
-It seems like if(set.add()) is a little slower than if(!contains()) then add() but it's more concise.
+Its much faster than one-end search indeed as explained in wiki.
+BFS isnt equivalent to Queue. Sometimes Set is more accurate representation for nodes of level. (also handy since we need to check if we meet from two ends)
+Its safe to share a visited set for both ends since if they meet same string it terminates early. (vis is useful since we cannot remove word from dict due to bidirectional search)
+It seems like if(set.add()) is a little slower than if(!contains()) then add() but its more concise.
 Thank you all for sharing and explaining!
 
 update: the dictList is of List type now. And all transformed words including endWord must be in dictList.
@@ -246,5 +245,5 @@ the initial state and the other backward from the goal—hoping that the two sea
 the middle. The motivation is that b^(d/2) + b^(d/2) is much less than b^d. b is branch factor, d is depth. "
 
 ----- section 3.4.6 in Artificial Intelligence - A modern approach by Stuart Russel and Peter Norvig
-*/
+
 

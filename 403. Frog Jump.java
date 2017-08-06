@@ -32,7 +32,9 @@ public class Solution {
 //TLE
 //想错方向了，应该Backtracking不行就马上换个方向想
 
-/*Using hashmap
+
+
+//Using hashmap
 Use map to represent a mapping from the stone (not index) to the steps that can be taken from this stone.
 
 so this will be
@@ -43,7 +45,7 @@ so this will be
 
 Notice that no need to calculate the last stone.
 
-On each step, we look if any other stone can be reached from it, if so, we update that stone's steps by adding step, step + 1, step - 1. If we can reach the final stone, we return true. No need to calculate to the last stone.
+On each step, we look if any other stone can be reached from it, if so, we update that stones steps by adding step, step + 1, step - 1. If we can reach the final stone, we return true. No need to calculate to the last stone.
 
 Here is the code:
 
@@ -82,10 +84,10 @@ public boolean canCross(int[] stones) {
 
     return false;
 }
-*/
 
 
-/*Using memorization
+
+//Using memorization
 public class Solution {
     public boolean canCross(int[] stones) {
         if(stones[1] != 1) return false;
@@ -123,11 +125,12 @@ public class Solution {
         memo[i][j] = 0;
         return false;
     }
-*/
+}
 
 
 
-/*跟我想的一样，只是我已经用了set就不要index的话就能过
+
+//跟我想的一样，只是我已经用了set就不要index的话就能过
 public class Solution {
      public boolean canCross(int[] stones) {
         if (stones == null || stones.length == 0) {return false;}
@@ -160,11 +163,11 @@ public class Solution {
         return false;
     }
 }
-*/
 
 
 
-/*Summary
+
+//Summary
 Summary
 
 Given a sorted stone array containing the positions at which there are stones in a river. We need to determine whether it is possible or not for a frog to cross the river by stepping over these stones, provided that the frog starts at position 0, and at every step the frog can make a jump of size k-1k−1, kk or k+1k+1 if the previous jump is of size kk.
@@ -344,7 +347,7 @@ Approach #5 Using Dynamic Programming[Accepted]
 
 Algorithm
 
-In the DP Approach, we make use of a hashmap mapmap which contains key:valuekey:value pairs such that keykey refers to the position at which a stone is present and valuevalue is a set containing the jumpsizejumpsize which can lead to the current stone position. We start by making a hashmap whose keykeys are all the positions at which a stone is present and the valuevalues are all empty except position 0 whose value contains 0. Then, we start traversing the elements(positions) of the given stone array in sequential order. For the currentPositioncurrentPosition, for every possible jumpsizejumpsize in the valuevalue set, we check if currentPosition + newjumpsizecurrentPosition+newjumpsize exists in the mapmap, where newjumpsizenewjumpsize can be either jumpsize-1jumpsize−1, jumpsizejumpsize, jumpsize+1jumpsize+1. If so, we append the corresponding valuevalue set with newjumpsizenewjumpsize. We continue in the same manner. If at the end, the valuevalue set corresponding to the last position is non-empty, we conclude that reaching the end is possible, otherwise, it isn't.
+In the DP Approach, we make use of a hashmap mapmap which contains key:valuekey:value pairs such that keykey refers to the position at which a stone is present and valuevalue is a set containing the jumpsizejumpsize which can lead to the current stone position. We start by making a hashmap whose keykeys are all the positions at which a stone is present and the valuevalues are all empty except position 0 whose value contains 0. Then, we start traversing the elements(positions) of the given stone array in sequential order. For the currentPositioncurrentPosition, for every possible jumpsizejumpsize in the valuevalue set, we check if currentPosition + newjumpsizecurrentPosition+newjumpsize exists in the mapmap, where newjumpsizenewjumpsize can be either jumpsize-1jumpsize−1, jumpsizejumpsize, jumpsize+1jumpsize+1. If so, we append the corresponding valuevalue set with newjumpsizenewjumpsize. We continue in the same manner. If at the end, the valuevalue set corresponding to the last position is non-empty, we conclude that reaching the end is possible, otherwise, it isnt.
 
 For more understanding see this animation-
 
@@ -381,4 +384,3 @@ Space complexity : O(n^2)O(n
 ​​ ). hashmaphashmap size can grow upto n^2n
 ​2
 ​​  .
-*/

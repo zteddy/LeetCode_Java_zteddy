@@ -20,7 +20,7 @@ public class Solution {
 //不知道怎么检测重复的String，用重载的HashSet？
 
 
-/*Base Knowledge
+//Base Knowledge
 Just added information for those who are interested (all credited to Wiki gray code
 
 
@@ -68,21 +68,21 @@ The last elements have similar form in both n=2 and n=3 case. They are 1 follows
 
 If we only look at the last 2 digits, we can see that in the first sequence, the second half is exact the reverse of the first half, that means, we can systematically generate the second half according to the first half.
 
-That's how I figured out the algorithm. Hope that helps!
-*/
+Thats how I figured out the algorithm. Hope that helps!
 
 
-/*Using Bit Manipulation
+
+//Using Bit Manipulation
 public List<Integer> grayCode(int n) {
     List<Integer> result = new LinkedList<>();
     for (int i = 0; i < 1<<n; i++) result.add(i ^ i>>1);
     return result;
 }
 The idea is simple. G(i) = i^ (i/2).
-*/
 
 
-/*Using iterative
+
+//Using iterative
 My idea is to generate the sequence iteratively. For example, when n=3, we can get the result based on n=2.
 00,01,11,10 -> (000,001,011,010 ) (110,111,101,100). The middle two numbers only differ at their highest bit, while the rest numbers of part two are exactly symmetric of part one. It is easy to see its correctness.
 Code is simple:
@@ -97,11 +97,11 @@ public List<Integer> grayCode(int n) {
     }
     return rs;
 }
-*/
 
 
 
-/*Using backtracking
+
+//Using backtracking
 public static List<Integer> grayCode(int n) {
     List<Integer> code = new ArrayList<Integer>();
     code.add(0);
@@ -121,4 +121,4 @@ public static void genCodes(List<Integer> code, int n, int curr, int size) {
         }
     }
 }
-*/
+

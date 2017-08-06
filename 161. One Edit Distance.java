@@ -34,8 +34,8 @@ public class Solution {
 
 
 
-/*One loop
-
+//One loop
+/*
  * There're 3 possibilities to satisfy one edit distance apart:
  *
  * 1) Replace 1 char:
@@ -47,6 +47,7 @@ public class Solution {
  * 3) Delete 1 char from t
       s: a   b c
       t: a D b c
+*/
 
 public boolean isOneEditDistance(String s, String t) {
     for (int i = 0; i < Math.min(s.length(), t.length()); i++) {
@@ -62,11 +63,11 @@ public boolean isOneEditDistance(String s, String t) {
     //All previous chars are the same, the only possibility is deleting the end char in the longer one of s and t
     return Math.abs(s.length() - t.length()) == 1;
 }
-*/
 
 
 
-/*More clear
+
+//More clear
 public boolean isOneEditDistance(String s, String t) {
     if(Math.abs(s.length()-t.length()) > 1) return false;
     if(s.length() == t.length()) return isOneModify(s,t);
@@ -88,22 +89,22 @@ public boolean isOneModify(String s,String t){
     }
     return diff==1;
 }
-*/
 
 
 
-/*Three line
+
+//Three line
 for (int i = 0; i < Math.min(s.length(), t.length()); i++) {
     if (s.charAt(i) != t.charAt(i)) {
         return s.substring(i + (s.length() >= t.length() ? 1 : 0)).equals(t.substring(i + (s.length() <= t.length() ? 1 : 0)));
     }
 }
 return Math.abs(s.length() - t.length()) == 1;
-*/
 
 
 
-/*Using two pointers
+
+//Using two pointers
 public class Solution {
     public boolean isOneEditDistance(String s, String t) {
         if(Math.abs(s.length() - t.length()) > 1)  return false;
@@ -126,11 +127,11 @@ public class Solution {
         return (err == 1 || (err == 0 && t.length() != s.length()))? true: false;
     }
 }
-*/
 
 
 
-/*Clear two pointers
+
+//Clear two pointers
 If s and t are one distance away then no matter it is insert or delete or replace the count of common characters must be max(m, n) - 1, where m is the length of s and n is the length of t. It is easy to see that the reverse is also true.
 
 Assume the length of common prefix (from left to right) is i and the length of common suffix after i (from right to left) is j, the answer is then max(m, n) - 1 == i + j
@@ -173,4 +174,4 @@ public boolean isOneEditDistance(String s, String t) {
     return m + n - k - 1 == i + j;
 }
 // Runtime : 2ms
-*/
+
