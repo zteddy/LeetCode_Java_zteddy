@@ -39,9 +39,57 @@ public class Solution {
 //其实这已经是自己想出来的sliding window了，但是可以用数组的，更简洁
 
 
+//尴尬好像重复做了一遍。。。
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+
+        if(s.length() == 0 || p.length() == 0) return new ArrayList();
+
+        int start = 0, end = 0;
+        Map<Character,Integer> words = new HashMap<>();
+
+        for(int i = 0; i < p.length(); i++){
+            int temp = words.containsKey(p.charAt(i))?words.get(p.charAt(i)):0;
+            words.put(p.charAt(i),temp+1);
+        }
+
+        Map<Character,Integer> anagrams = new HashMap<>();
+        char[] char_s = s.toCharArray();
+        List<Integer> result = new ArrayList<>();
+
+        if(words.containsKey(char_s[0])) anagrams.put(char_s[0],1);
+
+        while(end < s.length()-1){
+            if(end-start+1 < p.length()){
+                end++;
+                if(words.containsKey(char_s[end])){
+                    int temp = anagrams.containsKey(char_s[end])?anagrams.get(char_s[end]):0;
+                    anagrams.put(char_s[end],temp+1);
+                    if(words.equals(anagrams)) result.add(start);
+                }
+            }
+            else{
+                if(anagrams.containsKey(char_s[start])){
+                    anagrams.put(char_s[start],anagrams.get(char_s[start])-1);
+                    if(words.equals(anagrams)) result.add(start);
+                }
+                start++;
+            }
+        }
+
+        return result;
+    }
+}
+
+//好像效率的确没有用count高
 
 
-/*Using array as hash
+/*Using count
+Same idea from a fantastic sliding window template, please refer:
+https://discuss.leetcode.com/topic/30941/here-is-a-10-line-template-that-can-solve-most-substring-problems
+
+Time Complexity will be O(n) because the "start" and "end" points will only move from left to right once.
+
 public List<Integer> findAnagrams(String s, String p) {
     List<Integer> list = new ArrayList<>();
     if (s == null || s.length() == 0 || p == null || p.length() == 0) return list;
@@ -73,237 +121,28 @@ public List<Integer> findAnagrams(String s, String p) {
 
 
 
-/*Sliding window template
-Among all leetcode questions, I find that there are at least 5 substring search problem which could be solved by the sliding window algorithm.
-so I sum up the algorithm template here. wish it will help you!
 
-the template:
-public class Solution {
-    public List<Integer> slidingWindowTemplateByHarryChaoyangHe(String s, String t) {
-        //init a collection or int value to save the result according the question.
-        List<Integer> result = new LinkedList<>();
-        if(t.length()> s.length()) return result;
 
-        //create a hashmap to save the Characters of the target substring.
-        //(K, V) = (Character, Frequence of the Characters)
-        Map<Character, Integer> map = new HashMap<>();
-        for(char c : t.toCharArray()){
-            map.put(c, map.getOrDefault(c, 0) + 1);
-        }
-        //maintain a counter to check whether match the target string.
-        int counter = map.size();//must be the map size, NOT the string size because the char may be duplicate.
+/*Template
+In "438. Find All Anagrams in a String" problem, the counter means the number of keys contained in hash table for string p. Because we want to find all t's anagrams in s, we want to check all substring that matches t's anagrams.
+How can we check it? We can use a end pointer to go through s to check if an element in s matches an element in t.
 
-        //Two Pointers: begin - left pointer of the window; end - right pointer of the window
-        int begin = 0, end = 0;
+For example, if t = 'abb', s = 'abbabb'.
+Here we can create a hash table for string t :
+Key (Value) : a(1), b(2). [Here, counter =2]
+When iterating end, when it makes counter == 0, it means : substring 'abb' of s is an anagram of p. (This is because, we only decrement counter when the value of end is 0.
+Now, the hash table is : Key (Value) : a(0), b(0). [Here, counter =0, we increment end.]
 
-        //the length of the substring which match the target string.
-        int len = Integer.MAX_VALUE;
+Knowing this, we want to continue checking whether "bba"is an anagram of t. Here, we update the begin pointer to the second char of s. Before we do so, we have to check if there is some impact by pervious begin, which is the first char of s. Because we slid the window to s.substring(1,4) instead of s.substring(0,3), we want to get rid of the previous impact of first char of s.
 
-        //loop at the begining of the source string
-        while(end < s.length()){
+We use map.get(tempc) > 0 to check whether or not s.charAt(begin) is matched with a key in hash table before . If it is matched before, we should increase counter because it would be unmatched when we only want to check s.substring(0,3).
 
-            char c = s.charAt(end);//get a character
+Why use map.get(tempc) > 0 ? Because in the outer while loop, for each char that is matched, its value must be larger than 0. (Because the char have to be in hash table.) In the outer while loop, we decrement the its value by 1, in the inner while loop, we increment its value by it. So, after all, its value should be larger than 0.
 
-            if( map.containsKey(c) ){
-                map.put(c, map.get(c)-1);// plus or minus one
-                if(map.get(c) == 0) counter--;//modify the counter according the requirement(different condition).
-            }
-            end++;
+Finally, we should check end - begin == t.length, because we want to make sure our matched substring have the same length with string t. The counter doesn't check the length for us, it only check whether all chars in string t can be found in s.substring.
 
-            //increase begin pointer to make it invalid/valid again
-            //counter condition. different question may have different condition
-            while(counter == 0 ){
-
-                char tempc = s.charAt(begin);//***be careful here: choose the char at begin pointer, NOT the end pointer
-                if(map.containsKey(tempc)){
-                    map.put(tempc, map.get(tempc) + 1);//plus or minus one
-                    if(map.get(tempc) > 0) counter++;//modify the counter according the requirement(different condition).
-                }
-
-                /* save / update(min/max) the result if find a target
-                // result collections or result int value
-
-                begin++;
-            }
-        }
-        return result;
-    }
-}
-Firstly, here is my sliding solution this question. I will sum up the template below this code.
-2) the similar questions are:
-
-https://leetcode.com/problems/minimum-window-substring/
-https://leetcode.com/problems/longest-substring-without-repeating-characters/
-https://leetcode.com/problems/substring-with-concatenation-of-all-words/
-https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
-https://leetcode.com/problems/find-all-anagrams-in-a-string/
-
-3) I will give my solution for these questions use the above template one by one
-
-Minimum-window-substring
-https://leetcode.com/problems/minimum-window-substring/
-
-public class Solution {
-    public String minWindow(String s, String t) {
-        if(t.length()> s.length()) return "";
-        Map<Character, Integer> map = new HashMap<>();
-        for(char c : t.toCharArray()){
-            map.put(c, map.getOrDefault(c,0) + 1);
-        }
-        int counter = map.size();
-
-        int begin = 0, end = 0;
-        int head = 0;
-        int len = Integer.MAX_VALUE;
-
-        while(end < s.length()){
-            char c = s.charAt(end);
-            if( map.containsKey(c) ){
-                map.put(c, map.get(c)-1);
-                if(map.get(c) == 0) counter--;
-            }
-            end++;
-
-            while(counter == 0){
-                char tempc = s.charAt(begin);
-                if(map.containsKey(tempc)){
-                    map.put(tempc, map.get(tempc) + 1);
-                    if(map.get(tempc) > 0){
-                        counter++;
-                    }
-                }
-                if(end-begin < len){
-                    len = end - begin;
-                    head = begin;
-                }
-                begin++;
-            }
-
-        }
-        if(len == Integer.MAX_VALUE) return "";
-        return s.substring(head, head+len);
-    }
-}
-you may find that I only change a little code above to solve the question "Find All Anagrams in a String":
-change
-
-                if(end-begin < len){
-                    len = end - begin;
-                    head = begin;
-                }
-to
-
-                if(end-begin == t.length()){
-                    result.add(begin);
-                }
-longest substring without repeating characters
-https://leetcode.com/problems/longest-substring-without-repeating-characters/
-
-public class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        Map<Character, Integer> map = new HashMap<>();
-        int begin = 0, end = 0, counter = 0, d = 0;
-
-        while (end < s.length()) {
-            // > 0 means repeating character
-            //if(map[s.charAt(end++)]-- > 0) counter++;
-            char c = s.charAt(end);
-            map.put(c, map.getOrDefault(c, 0) + 1);
-            if(map.get(c) > 1) counter++;
-            end++;
-
-            while (counter > 0) {
-                //if (map[s.charAt(begin++)]-- > 1) counter--;
-                char charTemp = s.charAt(begin);
-                if (map.get(charTemp) > 1) counter--;
-                map.put(charTemp, map.get(charTemp)-1);
-                begin++;
-            }
-            d = Math.max(d, end - begin);
-        }
-        return d;
-    }
-}
-Longest Substring with At Most Two Distinct Characters
-https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
-
-public class Solution {
-    public int lengthOfLongestSubstringTwoDistinct(String s) {
-        Map<Character,Integer> map = new HashMap<>();
-        int start = 0, end = 0, counter = 0, len = 0;
-        while(end < s.length()){
-            char c = s.charAt(end);
-            map.put(c, map.getOrDefault(c, 0) + 1);
-            if(map.get(c) == 1) counter++;//new char
-            end++;
-            while(counter > 2){
-                char cTemp = s.charAt(start);
-                map.put(cTemp, map.get(cTemp) - 1);
-                if(map.get(cTemp) == 0){
-                    counter--;
-                }
-                start++;
-            }
-            len = Math.max(len, end-start);
-        }
-        return len;
-    }
-}
-Substring with Concatenation of All Words
-https://leetcode.com/problems/substring-with-concatenation-of-all-words/
-
-public class Solution {
-    public List<Integer> findSubstring(String S, String[] L) {
-        List<Integer> res = new LinkedList<>();
-        if (L.length == 0 || S.length() < L.length * L[0].length())   return res;
-        int N = S.length();
-        int M = L.length; // *** length
-        int wl = L[0].length();
-        Map<String, Integer> map = new HashMap<>(), curMap = new HashMap<>();
-        for (String s : L) {
-            if (map.containsKey(s))   map.put(s, map.get(s) + 1);
-            else                      map.put(s, 1);
-        }
-        String str = null, tmp = null;
-        for (int i = 0; i < wl; i++) {
-            int count = 0;  // remark: reset count
-            int start = i;
-            for (int r = i; r + wl <= N; r += wl) {
-                str = S.substring(r, r + wl);
-                if (map.containsKey(str)) {
-                    if (curMap.containsKey(str))   curMap.put(str, curMap.get(str) + 1);
-                    else                           curMap.put(str, 1);
-
-                    if (curMap.get(str) <= map.get(str))    count++;
-                    while (curMap.get(str) > map.get(str)) {
-                        tmp = S.substring(start, start + wl);
-                        curMap.put(tmp, curMap.get(tmp) - 1);
-                        start += wl;
-
-                        //the same as https://leetcode.com/problems/longest-substring-without-repeating-characters/
-                        if (curMap.get(tmp) < map.get(tmp)) count--;
-
-                    }
-                    if (count == M) {
-                        res.add(start);
-                        tmp = S.substring(start, start + wl);
-                        curMap.put(tmp, curMap.get(tmp) - 1);
-                        start += wl;
-                        count--;
-                    }
-                }else {
-                    curMap.clear();
-                    count = 0;
-                    start = r + wl;//not contain, so move the start
-                }
-            }
-            curMap.clear();
-        }
-        return res;
-    }
-}
-Find All Anagrams in a String
-https://leetcode.com/problems/find-all-anagrams-in-a-string/
+It takes me a while to understand the solution.
+I hope it helps : )
 
 public class Solution {
     public List<Integer> findAnagrams(String s, String t) {
@@ -345,5 +184,74 @@ public class Solution {
         }
         return result;
     }
+}
+*/
+
+
+
+
+/*
+public List<Integer> findAnagrams(String s, String p) {
+    List<Integer> ans = new ArrayList<>();
+    if (p.length() > s.length()){
+        return ans;
+    }
+    int[] charCounts = new int[26];
+    for (char c : p.toCharArray()){
+        charCounts[toInt(c)]++;
+    }
+
+    // Note: in the next iteration of this solution we may be able to move this
+    // into the while loop, but this does help my understanding of the solution
+    int left = 0; int right = 0; int numDiff = p.length();
+    for (right = 0; right < p.length(); right++){
+        char c = s.charAt(right);
+        if (charCounts[toInt(c)] > 0){
+            numDiff--;
+        }
+        charCounts[toInt(c)]--;
+    }
+    if (numDiff == 0){
+        ans.add(0);
+    }
+
+    // At this point what does the 'charCounts' represent?
+    // positive numbers represent the needed number of occurances of a given
+    // character that are needed to form an anagram.
+    // negative numbers represent number of occurances of a character which is not
+    // part of the anagram OR extra occurances of a character which IS part of the anagram.
+    // Important note: a charCounts which contains all zero counts represents a state of
+    // the anagram's existence.
+    while (right < s.length()){
+        char leftChar = s.charAt(left++);
+        if (charCounts[toInt(leftChar)] >= 0){
+            // the character we're moving away from is part of the anagram
+            // therefore we need to add to the difference
+            numDiff++;
+        }
+        charCounts[toInt(leftChar)]++; // record occurance of character whether of not it's part of the anagram
+
+        char rightChar = s.charAt(right++);
+        charCounts[toInt(rightChar)]--;
+        // the really interesting part, we end up with negatives in charCounts in two following two cases
+        // 1. if the character is not in the anagram
+        // 2. if a character IS in the anagram but we don't need any more of it
+        if (charCounts[toInt(rightChar)] >= 0){
+            // remember that if by subtracting the count at the right edge the result is 0 or more, it means
+            // we have found a character which belongs in the anagram
+            numDiff--;
+        }
+
+        if (numDiff == 0){
+            ans.add(left);
+        }
+
+    }
+
+    return ans;
+}
+
+private int toInt(char c){
+    return c - 'a';
 }
 */
