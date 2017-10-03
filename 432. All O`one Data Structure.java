@@ -274,3 +274,7 @@ class AllOne {
  * String param_3 = obj.getMaxKey();
  * String param_4 = obj.getMinKey();
  */
+
+
+
+//这种繁杂的逻辑宁愿写慢一点，或者先列个list要写什么
