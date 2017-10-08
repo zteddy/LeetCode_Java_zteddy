@@ -231,7 +231,7 @@ Hey, guys!
 
 Actually, there's nothing special in my solution except the comparably short Java code. It's just a simple sliding window approach which is greatly described in other posts.
 
-In short, we got the source histogram from the dictionary L and build the new histogram for each possible window comparing it with the help of Java's equals method to the source one. Additionally, for the sake of tiny optimization, we check the starting word for being in the dictionary.
+In short, we got the source histogram from the dictionary L and build the new histogram for each possible window comparing it with the help of Javas equals method to the source one. Additionally, for the sake of tiny optimization, we check the starting word for being in the dictionary.
 
 public List<Integer> findSubstring(String S, String[] L) {
     List<Integer> result = new ArrayList<>();

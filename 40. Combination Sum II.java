@@ -59,6 +59,8 @@ void dfs_com(int[] cand, int cur, int target, List<Integer> path, List<List<Inte
     if (target < 0) return;
     for (int i = cur; i < cand.length; i++){
         if (i > cur && cand[i] == cand[i-1]) continue;
+        //实际上等效于给duplication的num赋予了先后顺序
+        //遇到trick的时候仔细考虑duplication是怎么发生的，再解决
         path.add(path.size(), cand[i]);
         dfs_com(cand, i+1, target - cand[i], path, res);
         path.remove(path.size()-1);

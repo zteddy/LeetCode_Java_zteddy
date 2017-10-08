@@ -1,4 +1,3 @@
-/*WA
 public class Solution {
 	HashMap<Integer, UndirectedGraphNode> h = new HashMap<>();
 
@@ -56,7 +55,10 @@ public class Solution {
     	return result;
     }
 }
-*/
+
+//WA
+//拓扑排序并不等于无环
+
 
 public class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
@@ -91,6 +93,12 @@ public class Solution {
     	return result;
     }
 }
+
+
+//AC
+
+
+
 
 /*BFS & DFS
 According to my code test, BFS is much faster than DFS.
