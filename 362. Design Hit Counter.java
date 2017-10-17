@@ -51,14 +51,14 @@ This is important when you design a time-critical system.
 public class HitCounter {
     private int[] times;
     private int[] hits;
-    /** Initialize your data structure here. */
+    //Initialize your data structure here.
     public HitCounter() {
         times = new int[300];
         hits = new int[300];
     }
 
-    /** Record a hit.
-        @param timestamp - The current timestamp (in seconds granularity). */
+    //Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity).
     public void hit(int timestamp) {
         int index = timestamp % 300;
         if (times[index] != timestamp) {
@@ -69,8 +69,8 @@ public class HitCounter {
         }
     }
 
-    /** Return the number of hits in the past 5 minutes.
-        @param timestamp - The current timestamp (in seconds granularity). */
+    //Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity).
     public int getHits(int timestamp) {
         int total = 0;
         for (int i = 0; i < 300; i++) {
@@ -104,7 +104,7 @@ public class HitCounter {
     int lastTime;
     int sum;
 
-    /** Initialize your data structure here. */
+    //Initialize your data structure here.
     public HitCounter() {
         N = 300;
         count = new int[N];
@@ -113,16 +113,16 @@ public class HitCounter {
         sum = 0;
     }
 
-    /** Record a hit.
-        @param timestamp - The current timestamp (in seconds granularity). */
+    //Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity).
     public void hit(int timestamp) {
         move(timestamp);
         count[lastPosition]++;
         sum++;
     }
 
-    /** Return the number of hits in the past 5 minutes.
-        @param timestamp - The current timestamp (in seconds granularity). */
+    //Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity).
     public int getHits(int timestamp) {
         move(timestamp);
         return sum;
@@ -149,15 +149,15 @@ public class HitCounter {
     private LinkedList<Integer> time;
     private LinkedList<Integer> hits;
 
-    /** Initialize your data structure here. */
+    //Initialize your data structure here.
     public HitCounter() {
         sum = 0;
         time = new LinkedList<Integer>();
         hits = new LinkedList<Integer>();
     }
 
-    /** Record a hit.
-        @param timestamp - The current timestamp (in seconds granularity). */
+    //Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity).
     public void hit(int timestamp) {
         if(time.isEmpty() || time.getLast() != timestamp) {
             time.addLast(timestamp);
@@ -167,8 +167,8 @@ public class HitCounter {
         sum++;
     }
 
-    /** Return the number of hits in the past 5 minutes.
-        @param timestamp - The current timestamp (in seconds granularity). */
+    //Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity).
     public int getHits(int timestamp) {
         int head = timestamp - 300;
         while(!time.isEmpty() && time.getFirst() <= head) {
@@ -197,7 +197,7 @@ public class HitCounter {
     private HashMap<Integer, Long> cache;
     Object lock;
 
-    /** Initialize your data structure here. */
+    //Initialize your data structure here.
     public HitCounter() {
         counts = new TreeMap<Integer, AtomicInteger>();
         cache = new HashMap<Integer, Long>();
@@ -210,7 +210,7 @@ public class HitCounter {
      *
      * @param timestamp
      *            - The current timestamp (in seconds granularity).
-     */
+
     public void hit(int timestamp) {
         if (!counts.containsKey(timestamp)) {
             synchronized (lock) {
@@ -228,7 +228,7 @@ public class HitCounter {
      *
      * @param timestamp
      *            - The current timestamp (in seconds granularity).
-     */
+
     public int getHits(int timestamp) {
         if (timestamp <= 300) {
             return (int) getSum(timestamp);
@@ -262,7 +262,7 @@ public class HitCounter {
 /*Using LinkedHashMap
 final int  fiveMin = 300;
 LinkedHashMap<Integer,Integer> map;
-/** Initialize your data structure here. */
+//Initialize your data structure here.
 public HitCounter() {
     map = new LinkedHashMap<Integer,Integer>(){
         @Override
@@ -272,14 +272,14 @@ public HitCounter() {
         };
 }
 
-/** Record a hit.
-    @param timestamp - The current timestamp (in seconds granularity). */
+//Record a hit.
+    @param timestamp - The current timestamp (in seconds granularity).
 public void hit(int timestamp) {
     map.put(timestamp,map.getOrDefault(timestamp,0)+1);
 }
 
-/** Return the number of hits in the past 5 minutes.
-    @param timestamp - The current timestamp (in seconds granularity). */
+//Return the number of hits in the past 5 minutes.
+    @param timestamp - The current timestamp (in seconds granularity).
 public int getHits(int timestamp) {
     int start = timestamp - fiveMin;
     int sum =0;
